@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  localstack:
+    image: localstack/localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=s3
+      - DEBUG=1
+    container_name: localstack
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: s3test
+      POSTGRES_USER: s3test
+      POSTGRES_PASSWORD: s3test
+    ports:
+      - "5433:5432"
+    container_name: postgres_container
