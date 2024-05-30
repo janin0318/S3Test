@@ -1,6 +1,8 @@
 package mrs.s3test.service;
 
 import jakarta.annotation.PostConstruct;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +14,9 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.BucketAlreadyExistsException;
 import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
 @Service
 @Log4j2
@@ -63,9 +67,10 @@ public class S3Service {
    *
    * @param key      ファイル名
    * @param fileDate ファイルのバイト配列
+   * @return PutObjectResponse レスポンス
    */
-  public void uploadFile(String key, byte[] fileDate) {
-    s3Client.putObject(PutObjectRequest.builder().bucket(bucketName).key(key).build(),
+  public PutObjectResponse uploadFile(String key, byte[] fileDate) {
+    return s3Client.putObject(PutObjectRequest.builder().bucket(bucketName).key(key).build(),
         RequestBody.fromBytes(fileDate));
   }
 }
