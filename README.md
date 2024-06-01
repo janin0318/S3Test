@@ -22,4 +22,7 @@ DockerでLocalStackのコンテナを作成し、疑似S3環境を作成して�
 ## 環境構築手順
 
 1. PCにDockerをインストール
-2. 
+ d
+## LocalStack上のデータ確認方法
+
+`http://localhost:4566/{バケット名}` にアクセスすることで確認可能
