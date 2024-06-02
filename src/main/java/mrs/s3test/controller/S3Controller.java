@@ -32,7 +32,7 @@ public class S3Controller {
       log.info(s3Object.key());
     }
     model.addAttribute("objectList", result);
-    return "index";
+    return "s3/images";
   }
 
   @PostMapping("/upload")
@@ -47,6 +47,6 @@ public class S3Controller {
     String url = s3Service.generatePresignedUrl("年賀状_2024.jpg");
     log.info(url);
     model.addAttribute("url", url);
-    return "image";
+    return "s3/image";
   }
 }
