@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import software.amazon.awssdk.services.s3.model.S3Object;
 
@@ -36,15 +37,18 @@ public class S3Controller {
   }
 
   @PostMapping("/upload")
-  public String upload(@RequestParam("file") MultipartFile file) throws IOException {
+  public String upload(RedirectAttributes redirectAttributes,
+      @RequestParam("file") MultipartFile file) throws IOException {
     PutObjectResponse result = s3Service.uploadFile(file.getOriginalFilename(), file.getBytes());
-    log.info("ファイルアップロードしました。 eTag : {}, ファイル名 : {}", result.eTag(), result.toString());
-    return "redirect:/s3/index";
+    log.info("ファイルアップロードしました。 eTag : {}, ファイル名 : {}", result.eTag(),
+        result.toString());
+    redirectAttributes.addAttribute("key", file.getOriginalFilename());
+    return "redirect:/s3/image";
   }
 
   @GetMapping("/image")
-  public String getImage(Model model) {
-    String url = s3Service.generatePresignedUrl("年賀状_2024.jpg");
+  public String getImage(@RequestParam String key, Model model) {
+    String url = s3Service.generatePresignedUrl(key);
     log.info(url);
     model.addAttribute("url", url);
     return "s3/image";

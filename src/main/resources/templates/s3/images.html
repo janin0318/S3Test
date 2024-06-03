@@ -12,8 +12,12 @@
   <br><br>
   <button type="submit">Upload</button>
 </form>
-<th:block th:each="content : ${objectList}">
-  <p th:text="${content.key()}"></p>
-</th:block>
+<ul>
+  <th:block th:each="content : ${objectList}">
+    <li>
+      <a th:href="@{/s3/image(key=${content.key()})}" th:text="${content.key()}"></a>
+    </li>
+  </th:block>
+</ul>
 </body>
 </html>

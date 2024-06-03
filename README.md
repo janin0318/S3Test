@@ -26,3 +26,9 @@ DockerでLocalStackのコンテナを作成し、疑似S3環境を作成して�
 ## LocalStack上のデータ確認方法
 
 `http://localhost:4566/{バケット名}` にアクセスすることで確認可能
+
+バケットは以下のコマンドで作成できる。
+
+```
+$ aws s3 mb s3://{バケット名} --endpoint-url=http://localhost:4566
+```
